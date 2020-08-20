@@ -11,7 +11,7 @@
 <body>
 	<header>
 		<nav class="navbar navbar-light bg-light">
-				<a class="nav-item nav-link" href="index.jsp">Início</a>
+				<a class="nav-item nav-link" href="index.jsp">Início</a><!-- Aqui criamos as QueryStrings -->
 				<a class="nav-item nav-link" href="montador?uri-img=um.jpg&url-img=./img/&wid-img=300px">Imagem-1</a>
 				<a class="nav-item nav-link" href="montador?uri-img=dois.jpg&url-img=./img/&wid-img=300px">Imagem-2</a>
 				<a class="nav-item nav-link" href="montador?uri-img=tres.jpg&url-img=./img/&wid-img=300px">Imagem-3</a>
@@ -22,6 +22,9 @@
 	<div></div>
 	<section>
 		<figure>
+								<!-- E aqui adicionamos os atributos enviados pela Servlet, os atributos criados no Request -->
+								<!-- Recuperamos com Scriptlets ou Expressions, no caso aqui estamos recuperando com expression -->
+								<!-- As expression apenas funcionam com métodos que retornam informações.-->
 			<img alt="" width="<%=request.getAttribute("attrWidImg")%>" title="" src="<%=request.getAttribute("attrSrcImg")%>">
 			<figcaption></figcaption>
 		</figure>
