@@ -10,14 +10,14 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class ServletController
  */
-@WebServlet( urlPatterns={"/validacao","/index.php"})
-public class ServletController extends HttpServlet {
+@WebServlet(urlPatterns={"/validacao","/index.php"})
+public class BuildAction extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ServletController() {
+    public BuildAction() {
         super();
         // TODO Auto-generated constructor stub
     }

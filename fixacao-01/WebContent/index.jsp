@@ -25,7 +25,7 @@
 								<!-- E aqui adicionamos os atributos enviados pela Servlet, os atributos criados no Request -->
 								<!-- Recuperamos com Scriptlets ou Expressions, no caso aqui estamos recuperando com expression -->
 								<!-- As expression apenas funcionam com métodos que retornam informações.-->
-			<img alt="" width="<%=request.getAttribute("attrWidImg")%>" title="" src="<%=request.getAttribute("attrSrcImg")%>">
+			<img alt="" width="<%=request.getAttribute("")%>" title="" src="<%=request.getAttribute("")%>">
 			<figcaption></figcaption>
 		</figure>
 	</section>
