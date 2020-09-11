@@ -1,6 +1,7 @@
 package br.com.fiap.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -80,10 +81,15 @@ public class ClienteController extends HttpServlet {
 	 */
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		//RECEPCÇÃO DOS DADOS DO REQUEST - INÍCIO
+		//RECEPÇÃO DOS DADOS DO REQUEST - INÍCIO
 		
 		//Criar uma estância de cliente
 		Cliente cli = new Cliente();
+		
+		//cliente?txtNm=Joaozinho&txtSnm=Couve&txtDtNasc=1980-12-24&txtGen=m
+
+		//BO  = Business Object
+		//DAO = Data Access Object
 		
 		//Popular o cliente com os dados do request utilizando o método
 		// getPararmeter(NomeDoCampo)
@@ -96,10 +102,11 @@ public class ClienteController extends HttpServlet {
 		//Adicionando na lista.
 		lista.add(cli);
 		
-		//RECEPCÇÃO DOS DADOS DO REQUEST - FIM
+		//RECEPÇÃO DOS DADOS DO REQUEST - FIM
 		
 		//Adicionando a lista em um atributo no request
 		// utilizando o método setAttribute(nomeAtributo, Objeto)
+
 		request.setAttribute("listaCli", lista);
 		
 		//ENCAMINHAMENTO DO REQUEST/RESPONSE - INÍCIO
@@ -112,7 +119,13 @@ public class ClienteController extends HttpServlet {
 		// o request e o response finalmente.
 		rd.forward(request, response);
 		
+		//Realizando o Encaminhamento de forma direta.
+		//request.getRequestDispatcher("lista.jsp").forward(request, response);
+				
 		//ENCAMINHAMENTO DO REQUEST/RESPONSE - FIM
+		
+	
+		
 		
 	}
 

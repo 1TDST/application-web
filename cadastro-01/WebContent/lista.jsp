@@ -19,6 +19,16 @@
 	<div></div>
 	<section>
 	
+	
+	<%=request.getAttribute("ewe") %>
+	<%
+	
+		Cliente cliente = (Cliente)request.getAttribute("ccc");
+	
+	%>
+	
+	
+	
 		<table border="1">
 			<tr>
 				<th>ID</th>
@@ -26,6 +36,7 @@
 				<th>Dt Nasc</th>
 				<th>Gênero</th>
 				<th>Tel</th>
+				<th>Editar</th>
 			</tr>
 			
 <% 
@@ -49,12 +60,11 @@
 				}
 				
 				out.println("<td>"+ cli.getTelefone() +"</td>");
+				out.println("<td><a href=listar?id-cli="+ count +">Editar</a></td>");
 				out.println("</tr>");
 				count++;
 			}
  %>
-
-			
 			
 		</table>
 		
