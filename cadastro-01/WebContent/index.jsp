@@ -10,9 +10,15 @@
 </head>
 <body>
 
+
+	<!-- ESSE COMENTÁRIO O CLIENTE CONSEGUE VER -->
+	<%-- ESSE COMENTÁRIO O CLIENTE NÃO CONSEGUE VER--%>
+
 	<header>
-		<nav></nav>
+		<nav>
+		</nav>
 	</header>
+	
 	<div></div>
 	<section>
 		<form action="cliente" method="POST">
