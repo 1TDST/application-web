@@ -4,7 +4,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<%@ include file="imports.jsp"%>
+
+<%@ include file="imports.jsp"%><%--  Este include compila o código da página incluída --%>
+
 <title>INDEX</title>
 </head>
 <body>
