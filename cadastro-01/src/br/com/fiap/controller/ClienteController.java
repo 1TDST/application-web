@@ -1,11 +1,7 @@
 package br.com.fiap.controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -13,67 +9,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import br.com.fiap.bean.Cliente;
+import br.com.fiap.bo.ClienteBO;
 
 /**
  * Servlet implementation class ClienteController
  */
-@WebServlet(
-		description = "Controle de acesso e fluxo de informações.", 
-		urlPatterns = { 
-				"/cliente", 
-				"/listar"
-		})
+@WebServlet("/cliente")
 public class ClienteController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	public static List<Cliente> lista = null;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
     public ClienteController() {
         super();
-        
-        if(lista == null) {
-        //Implementando a lista com um ArrayList do tipo Cliente
-        	lista = new ArrayList<Cliente>();
-        	
-        	//Criando uma estância de Cliente
-        	Cliente cli = new Cliente();
-        	//Populando o cliente com os dados.
-        	cli.setNome("Alexandre");
-        	cli.setSobrenome("Carlos");
-        	cli.setDataNasc("1975-12-21");
-        	cli.setGenero('m');
-        	cli.setTelefone("(11) 98745-2135");
-        	//Adicionando na lista
-        	lista.add(cli);
-        	
-        	//ADICIONANDO UM NOVO REGISTRO.
-        	//Criando uma estância de Cliente
-        	cli = new Cliente();
-        	//Populando o cliente com os dados.
-        	cli.setNome("Julia");
-        	cli.setSobrenome("Scarpato");
-        	cli.setDataNasc("1982-04-05");
-        	cli.setGenero('f');
-        	cli.setTelefone("(48) 97852-4578");
-        	//Adicionando na lista
-        	lista.add(cli);
-        	
-        	//ADICIONANDO UM NOVO REGISTRO.
-        	//Criando uma estância de Cliente
-        	cli = new Cliente();
-        	//Populando o cliente com os dados.
-        	cli.setNome("Roberto");
-        	cli.setSobrenome("Carlos");
-        	cli.setDataNasc("1941-01-10");
-        	cli.setGenero('m');
-        	cli.setTelefone("(12) 97745-2356");
-        	//Adicionando na lista
-        	lista.add(cli);
-
-        }
-        
+        // TODO Auto-generated constructor stub
     }
 
 	/**
@@ -81,15 +31,20 @@ public class ClienteController extends HttpServlet {
 	 */
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		//RECEPÇÃO DOS DADOS DO REQUEST - INÍCIO
+		switch (request.getRequestURI()) {
+		case "/cadastro-01/cliente": inserirCliente(request,response);
+			break;
+		default:
+			response.sendRedirect("index.jsp");
+		}
 		
+	}
+
+	
+	public void inserirCliente(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//RECEPÇÃO DOS DADOS DO REQUEST - INÍCIO
 		//Criar uma estância de cliente
 		Cliente cli = new Cliente();
-		
-		//cliente?txtNm=Joaozinho&txtSnm=Couve&txtDtNasc=1980-12-24&txtGen=m
-
-		//BO  = Business Object
-		//DAO = Data Access Object
 		
 		//Popular o cliente com os dados do request utilizando o método
 		// getPararmeter(NomeDoCampo)
@@ -99,41 +54,37 @@ public class ClienteController extends HttpServlet {
 		cli.setGenero(request.getParameter("txtGen").charAt(0));
 		cli.setTelefone(request.getParameter("txtTel"));
 		
-		//Adicionando na lista.
-		lista.add(cli);
+		//Instanciar a classe BO e chamar o método cadastrar
+		// passando o objeto e recebendo o resultado que poder ser 1 pra OK e 0 para ERRO.
+		ClienteBO cb = new ClienteBO();
 		
-		//RECEPÇÃO DOS DADOS DO REQUEST - FIM
+		int status = cb.cadastroCliente(cli);
 		
-		//Adicionando a lista em um atributo no request
-		// utilizando o método setAttribute(nomeAtributo, Objeto)
+		//Realizando a verificação do status da gravação e retornando
+		// uma mensagem para o usuário.
+		if(status == 1) {
+			//Criando uma mensagem de Sucesso para o usuário
+			//Utilizando o atributo do request.
+			//request.setAttribute("msgStatus", "Os dados foram gravados com SUCESSO!");
 
-		request.setAttribute("listaCli", lista);
+			//Realizando envio de parâmetros por redirecionamento
+			//Obs:Estes devem recuperados atraves do escopo do PARAM
+			//EX. param.nomeDoParametro
+			response.sendRedirect("index.jsp?msgStatus=Os dados foram gravados com SUCESSO!");
+			
+		}else {
+			//Criando uma mensagem de Erro caso ocorra algum problema.
+			//Utilizando o atributo do request.
+			//request.setAttribute("msgStatus", "Ocorreu um erro!");
+			
+			//Realizando envio de parâmetros por redirecionamento
+			//Obs:Estes devem recuperados atraves do escopo do PARAM
+			//EX. param.nomeDoParametro
+			response.sendRedirect("index.jsp?msgStatus=Ocorreu um erro!");
+		}
 		
-		//ENCAMINHAMENTO DO REQUEST/RESPONSE - INÍCIO
-		
-		//Criar o dispatcher através da interface RequestDispatcher
-		// e passa para ela a URI/URL de destino.
-		RequestDispatcher rd = request.getRequestDispatcher("lista.jsp");
-		
-		//Agora utilizando o método forward nós passamos
-		// o request e o response finalmente.
-		rd.forward(request, response);
-		
-		//Realizando o Encaminhamento de forma direta.
-		//request.getRequestDispatcher("lista.jsp").forward(request, response);
-				
-		//ENCAMINHAMENTO DO REQUEST/RESPONSE - FIM
-		
-	
-		
-		
+		//Realizando o ENCAMINHAMENTO!!!
+		//request.getRequestDispatcher("index.jsp").forward(request, response);
 	}
-
+	
 }
-
-
-
-
-
-
-

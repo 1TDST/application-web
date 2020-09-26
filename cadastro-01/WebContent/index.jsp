@@ -19,7 +19,9 @@
 		</nav>
 	</header>
 	
-	<div></div>
+	<div>
+		<h2>${param.msgStatus}</h2>
+	</div>
 	<section>
 		<form action="cliente" method="POST">
 			<fieldset>
