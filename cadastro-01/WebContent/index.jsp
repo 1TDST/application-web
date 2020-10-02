@@ -14,16 +14,13 @@
 	<!-- ESSE COMENTÁRIO O CLIENTE CONSEGUE VER -->
 	<%-- ESSE COMENTÁRIO O CLIENTE NÃO CONSEGUE VER--%>
 
-	<header>
-		<nav>
-		</nav>
-	</header>
+	<%@ include file="menu-header.html"%>
 	
 	<div>
 		<h2>${param.msgStatus}</h2>
 	</div>
 	<section>
-		<form action="cliente" method="POST">
+		<form action="cadastro" method="POST">
 			<fieldset>
 				<legend>Cadastro de Clientes</legend>
 

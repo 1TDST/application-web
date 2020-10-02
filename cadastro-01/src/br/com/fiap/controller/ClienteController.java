@@ -1,6 +1,7 @@
 package br.com.fiap.controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,77 +15,119 @@ import br.com.fiap.bo.ClienteBO;
 /**
  * Servlet implementation class ClienteController
  */
-@WebServlet("/cliente")
+@WebServlet(urlPatterns = { "/cadastro", "/clientes" })
 public class ClienteController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public ClienteController() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
 
 	/**
-	 * @see HttpServlet#service(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#HttpServlet()
 	 */
-	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+	public ClienteController() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @see HttpServlet#service(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void service(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
 		switch (request.getRequestURI()) {
-		case "/cadastro-01/cliente": inserirCliente(request,response);
+
+		case "/cadastro-01/cadastro":
+			inserirCliente(request, response);
 			break;
+		
+		case "/cadastro-01/clientes":
+			 exibirClientes(request, response);
+			break;
+
 		default:
 			response.sendRedirect("index.jsp");
 		}
-		
+
 	}
 
-	
-	public void inserirCliente(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//RECEPÇÃO DOS DADOS DO REQUEST - INÍCIO
-		//Criar uma estância de cliente
-		Cliente cli = new Cliente();
+	private void exibirClientes(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//Instanciar a classe BO
+		ClienteBO cb = new ClienteBO();
 		
-		//Popular o cliente com os dados do request utilizando o método
+		//Criar uma lista para armazenar o resultado da consulta.
+		List<Cliente> lista = cb.listarClientes();
+		
+		//Validando a lista
+		if(lista != null) {
+			//Criando um atributo no request e adicionar a lista de clientes para
+			//ser encaminhado para a página lista.jsp
+			request.setAttribute("listaCliente", lista);
+			
+			//Realizando o encaminhamento
+			request.getRequestDispatcher("lista.jsp").forward(request, response);
+		}
+	}
+
+	public void inserirCliente(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		// RECEPÇÃO DOS DADOS DO REQUEST - INÍCIO
+		// Criar uma estância de cliente
+		Cliente cli = new Cliente();
+
+		// Popular o cliente com os dados do request utilizando o método
 		// getPararmeter(NomeDoCampo)
 		cli.setNome(request.getParameter("txtNm"));
 		cli.setSobrenome(request.getParameter("txtSnm"));
 		cli.setDataNasc(request.getParameter("txtDtNasc"));
 		cli.setGenero(request.getParameter("txtGen").charAt(0));
 		cli.setTelefone(request.getParameter("txtTel"));
-		
-		//Instanciar a classe BO e chamar o método cadastrar
-		// passando o objeto e recebendo o resultado que poder ser 1 pra OK e 0 para ERRO.
-		ClienteBO cb = new ClienteBO();
-		
-		int status = cb.cadastroCliente(cli);
-		
-		//Realizando a verificação do status da gravação e retornando
-		// uma mensagem para o usuário.
-		if(status == 1) {
-			//Criando uma mensagem de Sucesso para o usuário
-			//Utilizando o atributo do request.
-			//request.setAttribute("msgStatus", "Os dados foram gravados com SUCESSO!");
 
-			//Realizando envio de parâmetros por redirecionamento
-			//Obs:Estes devem recuperados atraves do escopo do PARAM
-			//EX. param.nomeDoParametro
+		// Instanciar a classe BO e chamar o método cadastrar
+		// passando o objeto e recebendo o resultado que poder ser 1 pra OK e 0 para
+		// ERRO.
+		ClienteBO cb = new ClienteBO();
+
+		int status = cb.cadastroCliente(cli);
+
+		// Realizando a verificação do status da gravação e retornando
+		// uma mensagem para o usuário.
+		if (status == 1) {
+			// Criando uma mensagem de Sucesso para o usuário
+			// Utilizando o atributo do request.
+			// request.setAttribute("msgStatus", "Os dados foram gravados com SUCESSO!");
+
+			// Realizando envio de parâmetros por redirecionamento
+			// Obs:Estes devem recuperados atraves do escopo do PARAM
+			// EX. param.nomeDoParametro
 			response.sendRedirect("index.jsp?msgStatus=Os dados foram gravados com SUCESSO!");
-			
-		}else {
-			//Criando uma mensagem de Erro caso ocorra algum problema.
-			//Utilizando o atributo do request.
-			//request.setAttribute("msgStatus", "Ocorreu um erro!");
-			
-			//Realizando envio de parâmetros por redirecionamento
-			//Obs:Estes devem recuperados atraves do escopo do PARAM
-			//EX. param.nomeDoParametro
+
+		} else {
+			// Criando uma mensagem de Erro caso ocorra algum problema.
+			// Utilizando o atributo do request.
+			// request.setAttribute("msgStatus", "Ocorreu um erro!");
+
+			// Realizando envio de parâmetros por redirecionamento
+			// Obs:Estes devem recuperados atraves do escopo do PARAM
+			// EX. param.nomeDoParametro
 			response.sendRedirect("index.jsp?msgStatus=Ocorreu um erro!");
 		}
-		
-		//Realizando o ENCAMINHAMENTO!!!
-		//request.getRequestDispatcher("index.jsp").forward(request, response);
+
+		// Realizando o ENCAMINHAMENTO!!!
+		// request.getRequestDispatcher("index.jsp").forward(request, response);
 	}
-	
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
