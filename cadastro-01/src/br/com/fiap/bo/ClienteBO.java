@@ -19,4 +19,10 @@ public class ClienteBO {
 		return cd.select();
 	}
 
+	public Cliente listarClientes(int idCli){
+		cd = new ClienteDAO();
+		return cd.select(idCli);
+	}
+
+	
 }

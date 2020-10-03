@@ -86,7 +86,54 @@ public class ClienteDAO {
 	}
 	
 	public Cliente select(int idCli){
-		return null;
+		String sql = null;
+		Cliente cli  = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		try {
+			//Criando a instrução SQL
+			sql = "SELECT * FROM TBL_CLIENTE WHERE ID_CLI = ?";
+			
+			//Criando a conexão
+			ps = con.prepareStatement(sql);
+		
+			//Passando o parâmetro para a instrução SQL.
+			ps.setInt(1, idCli);
+			
+			//Recebendo os dados no ResultSet
+			rs = ps.executeQuery();
+			
+			//Construindo a estrutura para ler o ResultSet
+			while (rs.next()) {
+				//contruir o objeto cliente a cada nova iteração.
+				cli = new Cliente();
+				
+				//Populando o cliente com os dados do ResultSet
+				cli.setNome(rs.getNString("nome_cli"));
+				cli.setSobrenome(rs.getNString("sobrenome_cli"));
+				cli.setDataNasc(new SimpleDateFormat("yyyy-MM-dd").parse(rs.getNString("data_nasc_cli")));
+				cli.setGenero(rs.getNString("genero_cli").charAt(0));
+				cli.setTelefone(rs.getNString("tel_cli"));
+				
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		} catch (ParseException e) {
+			e.printStackTrace();
+			return null;
+		} finally {
+			try {
+				ps.close();
+				rs.close();
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return cli;
 	}
 	
 	public int insert(Cliente cli){

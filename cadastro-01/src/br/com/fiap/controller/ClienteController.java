@@ -15,7 +15,7 @@ import br.com.fiap.bo.ClienteBO;
 /**
  * Servlet implementation class ClienteController
  */
-@WebServlet(urlPatterns = { "/cadastro", "/clientes" })
+@WebServlet(urlPatterns = { "/cadastro", "/clientes", "/listar", "/excluir", "/update" })
 public class ClienteController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -43,11 +43,39 @@ public class ClienteController extends HttpServlet {
 		case "/cadastro-01/clientes":
 			 exibirClientes(request, response);
 			break;
-
+			
+		case "/cadastro-01/listar":
+			 exibirClientes(request, response, Integer.parseInt(request.getParameter("id-cli")));
+			break;
+			
 		default:
 			response.sendRedirect("index.jsp");
 		}
 
+	}
+
+	private void exibirClientes(HttpServletRequest request, HttpServletResponse response, int idCli) throws ServletException, IOException {
+		
+		//Instanciar a classe BO
+		ClienteBO cb = new ClienteBO();
+		
+		//Criar um cliente
+		Cliente cli = cb.listarClientes(idCli);
+		
+		//Validando o cliente
+		if(cli != null) {
+			//Criando um atributo no request e adicionando o cliente para
+			//ser encaminhado para a página atualiza.jsp
+			request.setAttribute("objCli", cli);
+			
+			//Realizando o encaminhamento
+			request.getRequestDispatcher("atualiza.jsp").forward(request, response);
+		}else {
+			//Realizando o Redirecionamento
+			response.sendRedirect("index.jsp?msgStatus=Ocorreu um erro no processamento de atualização do Cliente.");
+		}
+
+		
 	}
 
 	private void exibirClientes(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -65,6 +93,9 @@ public class ClienteController extends HttpServlet {
 			
 			//Realizando o encaminhamento
 			request.getRequestDispatcher("lista.jsp").forward(request, response);
+		}else {
+			//Realizando o Redirecionamento
+			response.sendRedirect("index.jsp?msgStatus=Ocorreu um erro no processamento da lista de Clientes.");
 		}
 	}
 
@@ -109,7 +140,7 @@ public class ClienteController extends HttpServlet {
 			// Realizando envio de parâmetros por redirecionamento
 			// Obs:Estes devem recuperados atraves do escopo do PARAM
 			// EX. param.nomeDoParametro
-			response.sendRedirect("index.jsp?msgStatus=Ocorreu um erro!");
+			response.sendRedirect("index.jsp?msgStatus=Ocorreu um erro no cadastro do Cliente!");
 		}
 
 		// Realizando o ENCAMINHAMENTO!!!

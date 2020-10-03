@@ -10,7 +10,7 @@ public class ConnectionFactory {
 		
 		String dbURL = "jdbc:oracle:thin:@oracle.fiap.com.br:1521:orcl";
 		String user = "pf0670";
-		String pwd = "12335423";
+		String pwd = "jucabala";
 		Class.forName("oracle.jdbc.OracleDriver");
 		return DriverManager.getConnection(dbURL, user, pwd);
 	}
