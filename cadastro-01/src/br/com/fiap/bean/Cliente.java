@@ -8,6 +8,7 @@ import java.util.Date;
 public class Cliente implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
+	private int id;
 	private String nome;
 	private String sobrenome;
 	private Date dataNasc;
@@ -19,9 +20,9 @@ public class Cliente implements Serializable{
 	}
 
 	
-	
-	public Cliente(String nome, String sobrenome, Date dataNasc, char genero, String telefone) {
+	public Cliente(int id, String nome, String sobrenome, Date dataNasc, char genero, String telefone) {
 		super();
+		this.id = id;
 		this.nome = nome;
 		this.sobrenome = sobrenome;
 		this.dataNasc = dataNasc;
@@ -29,7 +30,13 @@ public class Cliente implements Serializable{
 		this.telefone = telefone;
 	}
 
+	public int getId() {
+		return id;
+	}
 
+	public void setId(int id) {
+		this.id = id;
+	}
 
 	public String getNome() {
 		return nome;

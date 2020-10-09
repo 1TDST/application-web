@@ -47,13 +47,80 @@ public class ClienteController extends HttpServlet {
 		case "/cadastro-01/listar":
 			 exibirClientes(request, response, Integer.parseInt(request.getParameter("id-cli")));
 			break;
-			
+	
+		case "/cadastro-01/update":
+			 atualizaCliente(request, response);
+			break;
+
+		case "/cadastro-01/excluir":
+			 apagarCliente(request, response, Integer.parseInt(request.getParameter("id-cli")));
+			break;
+
 		default:
 			response.sendRedirect("index.jsp");
 		}
+		
 
 	}
 
+	public void apagarCliente(HttpServletRequest request, HttpServletResponse response, int idCli) throws IOException {
+		
+		//Instanciar a classe BO
+		ClienteBO cb = new ClienteBO();
+		
+		//Recuperando o status da operação
+		int status = cb.removeCliente(idCli);
+		
+		//Validação do cliente
+		if(status > 0) {
+			// Realizando envio de parâmetros por redirecionamento
+			// Obs:Estes devem recuperados atraves do escopo do PARAM
+			// EX. param.nomeDoParametro
+			response.sendRedirect("index.jsp?status=ok&msgStatus=Os dados foram EXCLUIDOS com SUCESSO!");
+		}else {
+			// Realizando envio de parâmetros por redirecionamento
+			// Obs:Estes devem recuperados atraves do escopo do PARAM
+			// EX. param.nomeDoParametro
+			response.sendRedirect("index.jsp?status=err&msgStatus=Ocorreu um erro na EXCLUSAO dos dados!");
+		}
+	}
+
+	//ATUALIZA CLIENTE	
+	public void atualizaCliente(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		//Instanciar a classe BO
+		ClienteBO cb = new ClienteBO();
+		
+		// RECEPÇÃO DOS DADOS DO REQUEST DA PÁGINA ATUAZLIZA.JSP
+		// Criar uma estância de cliente
+		Cliente cli = new Cliente();
+		
+		// Popular o cliente com os dados do request utilizando o método
+		// getPararmeter(NomeDoCampo)
+		cli.setId(Integer.parseInt(request.getParameter("txtIdCli")));
+		cli.setNome(request.getParameter("txtNm"));
+		cli.setSobrenome(request.getParameter("txtSnm"));
+		cli.setDataNasc(request.getParameter("txtDtNasc"));
+		cli.setGenero(request.getParameter("txtGen").charAt(0));
+		cli.setTelefone(request.getParameter("txtTel"));
+		
+		//Recuperando o status da operação
+		int status = cb.atualizacaoCadastral(cli);
+		
+		//Validação do cliente
+		if(status > 0) {
+			// Realizando envio de parâmetros por redirecionamento
+			// Obs:Estes devem recuperados atraves do escopo do PARAM
+			// EX. param.nomeDoParametro
+			response.sendRedirect("index.jsp?msgStatus=Os dados foram ATUALIZADOS com SUCESSO!");
+		}else {
+			// Realizando envio de parâmetros por redirecionamento
+			// Obs:Estes devem recuperados atraves do escopo do PARAM
+			// EX. param.nomeDoParametro
+			response.sendRedirect("index.jsp?msgStatus=Ocorreu um erro na ATUALIZACAO dos dados!");
+		}
+	}
+
+	//LISTAR CLIENTE BY ID	
 	private void exibirClientes(HttpServletRequest request, HttpServletResponse response, int idCli) throws ServletException, IOException {
 		
 		//Instanciar a classe BO
@@ -69,7 +136,7 @@ public class ClienteController extends HttpServlet {
 			request.setAttribute("objCli", cli);
 			
 			//Realizando o encaminhamento
-			request.getRequestDispatcher("atualiza.jsp").forward(request, response);
+			request.getRequestDispatcher("./WEB-INF/atualiza.jsp").forward(request, response);
 		}else {
 			//Realizando o Redirecionamento
 			response.sendRedirect("index.jsp?msgStatus=Ocorreu um erro no processamento de atualização do Cliente.");
@@ -78,6 +145,7 @@ public class ClienteController extends HttpServlet {
 		
 	}
 
+	//LISTAR TODOS OS CLIENTES
 	private void exibirClientes(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//Instanciar a classe BO
 		ClienteBO cb = new ClienteBO();
@@ -92,13 +160,14 @@ public class ClienteController extends HttpServlet {
 			request.setAttribute("listaCliente", lista);
 			
 			//Realizando o encaminhamento
-			request.getRequestDispatcher("lista.jsp").forward(request, response);
+			request.getRequestDispatcher("./WEB-INF/lista.jsp").forward(request, response);
 		}else {
 			//Realizando o Redirecionamento
 			response.sendRedirect("index.jsp?msgStatus=Ocorreu um erro no processamento da lista de Clientes.");
 		}
 	}
 
+	//INSERIR CLIENTE
 	public void inserirCliente(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// RECEPÇÃO DOS DADOS DO REQUEST - INÍCIO

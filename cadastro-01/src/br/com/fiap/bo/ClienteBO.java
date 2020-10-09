@@ -23,6 +23,15 @@ public class ClienteBO {
 		cd = new ClienteDAO();
 		return cd.select(idCli);
 	}
-
+	
+	public int atualizacaoCadastral(Cliente cli) {
+		cd = new ClienteDAO();
+		return cd.update(cli);
+	}
+	
+	public int removeCliente(int idCli) {
+		cd = new ClienteDAO();
+		return cd.delete(idCli);
+	}
 	
 }

@@ -1,11 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="stylesheet" href="./css/bootstrap.css">
+<%@ include file="./WEB-INF/snippets/imports/libs-head.jsp"%>
 <title>CADASTRO</title>
 </head>
 <body>
@@ -15,10 +14,20 @@
 	<%-- ESSE COMENTÁRIO O CLIENTE NÃO CONSEGUE VER--%>
 
 	<%@ include file="menu-header.html"%>
-	
-	<div>
-		<h2>${param.msgStatus}</h2>
-	</div>
+
+	<c:choose>
+		<c:when test="${param.status eq 'ok'}">	
+			<div>
+				<h2 class="alert alert-success" role="alert">${param.msgStatus}</h2>
+			</div>
+		</c:when>
+		<c:when test="${param.status eq 'err'}">	
+			<div>
+				<h2 class="alert alert-danger" role="alert">${param.msgStatus}</h2>
+			</div>
+		</c:when>
+	</c:choose>
+
 	<section>
 		<form action="cadastro" method="POST">
 			<fieldset>
@@ -78,10 +87,7 @@
 		</form>
 	</section>
 	<footer></footer>
-
-	<script type="text/javascript" src="./js/jquery-3.5.1.js"></script>
-	<script type="text/javascript" src="./js/bootstrap.js"></script>
-
+<%@ include file="./WEB-INF/snippets/imports/libs-footer.jsp" %>
 </body>
 </html>
 

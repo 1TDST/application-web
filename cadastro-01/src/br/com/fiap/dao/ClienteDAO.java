@@ -56,6 +56,7 @@ public class ClienteDAO {
 				cli = new Cliente();
 				
 				//Populando o cliente com os dados do ResultSet
+				cli.setId(Integer.parseInt(rs.getNString("id_cli")));
 				cli.setNome(rs.getNString("nome_cli"));
 				cli.setSobrenome(rs.getNString("sobrenome_cli"));
 				cli.setDataNasc(new SimpleDateFormat("yyyy-MM-dd").parse(rs.getNString("data_nasc_cli")));
@@ -110,6 +111,7 @@ public class ClienteDAO {
 				cli = new Cliente();
 				
 				//Populando o cliente com os dados do ResultSet
+				cli.setId(Integer.parseInt(rs.getNString("id_cli")));
 				cli.setNome(rs.getNString("nome_cli"));
 				cli.setSobrenome(rs.getNString("sobrenome_cli"));
 				cli.setDataNasc(new SimpleDateFormat("yyyy-MM-dd").parse(rs.getNString("data_nasc_cli")));
@@ -165,11 +167,75 @@ public class ClienteDAO {
 	}
 
 	public int update(Cliente cli){
-		return 0;
+		String sql = null;
+		PreparedStatement ps = null;
+		int status = 0;
+		
+		try {
+		//CRIANDO A INSTRUÇÃO SQL
+		sql = "UPDATE TBL_CLIENTE SET NOME_CLI = ?,SOBRENOME_CLI = ?,DATA_NASC_CLI = TO_DATE(?,'yyyy-MM-dd'),"
+				+ "GENERO_CLI = ?,TEL_CLI = ? WHERE ID_CLI = ?";
+		
+		//Criando a conexão
+		ps = con.prepareStatement(sql);
+		 
+		//POPULANDO A CONEXÃO COM O OBJETO
+		ps.setString(1, cli.getNome());
+		ps.setString(2, cli.getSobrenome());
+		ps.setString(3, new SimpleDateFormat("yyyy-MM-dd").format(cli.getDataNasc()));
+		ps.setString(4, String.valueOf(cli.getGenero()));
+		ps.setString(5, cli.getTelefone());
+		ps.setInt(6, cli.getId());
+		
+		//Gerando o retorno para avaliação
+		status = ps.executeUpdate();
+		
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return 0;
+		}finally {
+			try {
+				ps.close();
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+				
+		}
+		
+		return status;
 	}
 
 	public int delete(int idCli){
-		return 0;
+		String sql = null;
+		PreparedStatement ps = null;
+		int status = 0;
+		
+		try {
+			//Instrução SQL
+			sql = "DELETE FROM TBL_CLIENTE WHERE ID_CLI = ?";
+			
+			//Criando a conexão
+			ps = con.prepareStatement(sql);
+			
+			//Populando instrução SQL com o parâmetro
+			ps.setInt(1, idCli);
+			
+			//Recuperando o status da operação
+			status = ps.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return 0;
+		} finally {
+			try {
+				ps.close();
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return status;
 	}
 
 }

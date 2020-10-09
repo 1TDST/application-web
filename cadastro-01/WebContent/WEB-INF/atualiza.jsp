@@ -1,23 +1,18 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt"  prefix="f"%>	
-
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="stylesheet" href="./css/bootstrap.css">
-<title>ATUALIZAÇÃO</title>
+<%@ include file="./snippets/imports/libs-head.jsp"%><title>ATUALIZAÇÃO</title>
 </head>
 <body>
 
-	<%@ include file="menu-header.html"%>
+	<%@ include file="../menu-header.html"%>
 	
 	<section>
 		<form action="update" method="POST">
+			<input type="hidden" name="txtIdCli" value="${objCli.id}">
 			<fieldset>
 				<legend>Atualização de Clientes</legend>
 				<div class="form-group">
@@ -91,9 +86,6 @@
 		</form>
 	</section>
 	<footer></footer>
-
-	<script type="text/javascript" src="./js/jquery-3.5.1.js"></script>
-	<script type="text/javascript" src="./js/bootstrap.js"></script>
-
+<%@ include file="./snippets/imports/libs-footer.jsp" %>
 </body>
 </html>
