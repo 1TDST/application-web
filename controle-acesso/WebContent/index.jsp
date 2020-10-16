@@ -1,3 +1,5 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,7 +11,7 @@
 </head>
 <body>
 
-	<h2>ID SESSION :${param.idSession}</h2>
+	<h2>ID SESSION :${param.idSessao}</h2>
 	
 	<!-- Carregando o Modal -->
 	<button type="button" class="btn btn-info" data-toggle="modal"
