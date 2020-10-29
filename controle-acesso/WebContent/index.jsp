@@ -11,8 +11,8 @@
 </head>
 <body>
 
-	<h2>ID SESSION :${param.idSessao}</h2>
-	
+	<h2>ID SESSION :${id}</h2>
+			
 	<!-- Carregando o Modal -->
 	<button type="button" class="btn btn-info" data-toggle="modal"
 		data-target="#box-login">LOGIN</button>
@@ -53,9 +53,26 @@
 
 		</div>
 	</div>
-	<div>
-		<p><a href="validacao">VALIDANDO</a></p>
-	</div>
+<script language=’Javascript’>
+segundos = 7;
+function contagem_tempo(){
+
+document.contador.segundos.value = segundos;
+segundos = segundos – 1;
+
+if (segundos == -1) {
+segundos = 0;
+}
+
+timerID = setTimeout(“contagem_tempo()”,1000);
+}
+</script>
+
+<form name=”contador”>
+<input name=”segundos” type=”text” />
+</form>
+	
+	
 	<script type="text/javascript" src="js/jquery-3.5.1.js"></script>
 	<script type="text/javascript" src="js/bootstrap.js"></script>
 </body>

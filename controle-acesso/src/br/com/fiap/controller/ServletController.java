@@ -12,7 +12,7 @@ import javax.servlet.http.HttpSession;
 /**
  * Servlet implementation class ServletController
  */
-@WebServlet( urlPatterns={"/validacao","/index.php"})
+@WebServlet( urlPatterns={"/validacao","/logout"})
 public class ServletController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
      
@@ -29,22 +29,28 @@ public class ServletController extends HttpServlet {
 	 * @see HttpServlet#service(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+		
 		//Recuperando a Sessão do usuário
 		HttpSession session = request.getSession();
+		
+		if(session.isNew()) {
+			//Determinando o Timeout da Sessão
+			session.setMaxInactiveInterval(10);
+			System.out.println("IS NEW!!");
+			//Guardar o ID da sessão em um atributo da própria
+			session.setAttribute("id", session.getId());
 			
-		//Determinando o Timeout da Sessão
-		session.setMaxInactiveInterval(10);
+		}
 		
-		//Imprimindo o ID da Sessão
-		//System.out.println(session.getId());
+		response.sendRedirect("index.jsp?id="+session.getId());
 		
-		response.sendRedirect("index.jsp?idSessao="+session.getId());
 		
 	}
 	
-}
 
+
+	
+}
 
 
 

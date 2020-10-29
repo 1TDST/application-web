@@ -15,7 +15,7 @@ import br.com.fiap.bo.ClienteBO;
 /**
  * Servlet implementation class ClienteController
  */
-@WebServlet(urlPatterns = { "/cadastro", "/clientes", "/listar", "/excluir", "/update" })
+@WebServlet(urlPatterns = { "/cadastro", "/clientes", "/listar", "/excluir", "/update" , "/paginacao"})
 public class ClienteController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -55,12 +55,22 @@ public class ClienteController extends HttpServlet {
 		case "/cadastro-01/excluir":
 			 apagarCliente(request, response, Integer.parseInt(request.getParameter("id-cli")));
 			break;
+		
+		case "/cadastro-01/paginacao":
+			 paginacao(request, response);
+			break;
 
 		default:
 			response.sendRedirect("index.jsp");
 		}
 		
 
+	}
+
+	public void paginacao(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		request.getRequestDispatcher("./WEB-INF/"+request.getParameter("pag")).forward(request, response);
+		
 	}
 
 	public void apagarCliente(HttpServletRequest request, HttpServletResponse response, int idCli) throws IOException {
